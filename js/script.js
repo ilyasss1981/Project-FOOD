@@ -97,10 +97,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // -----------------------Modal window-------------------------------
 
     const modalTrigger = document.querySelectorAll('[data-modal]'),
-          modal = document.querySelector('.modal'),
-        //   closeModalBtn = document.querySelector('[data-close]'),
-          modalTimerID = setTimeout(showModal, 5000);
-          
+          modal = document.querySelector('.modal'),        
+          modalTimerID = setTimeout(showModal, 5000);          
 
     function showModal() {
         modal.classList.add('show');
@@ -118,9 +116,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     modalTrigger.forEach(btn => {
         btn.addEventListener('click', showModal);    
-    });    
-
-    // closeModalBtn.addEventListener('click', closeModal);
+    });     
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.getAttribute('data-close') == '') {
@@ -238,36 +234,32 @@ window.addEventListener('DOMContentLoaded', () => {
                 display: block;
                 margin: 0 auto;
             `;
-            form.insertAdjacentElement('afterend', statusMessage);
-
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-            //request.setRequestHeader('Content-type', 'multipart/form-data'); // в связке XMLHTTP и FORMDATA заголовки не нужны
-            request.setRequestHeader('Content-type', 'application/json'); // вариант 2 с JSON
+            form.insertAdjacentElement('afterend', statusMessage);            
 
             const formData = new FormData(form);
-            const object = {};
 
+            const object = {};
             formData.forEach(function(value, key) {
                 object[key] = value;
-            });
+            });           
 
-            const json = JSON.stringify(object);
-
-            //request.send(formData); // вариант 1
-            request.send(json);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);
-                    form.reset();
-                    statusMessage.remove();
-                    
-                } else {
-                    showThanksModal(message.failure);
-                }
-            });
+            fetch('server.php', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(object)
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThanksModal(message.success);                
+                statusMessage.remove();
+            }).catch(() => {
+                showThanksModal(message.failure);
+            }).finally(() => {
+                form.reset();
+            });         
         });
     }
 
@@ -292,7 +284,6 @@ window.addEventListener('DOMContentLoaded', () => {
             prevModalDialog.classList.remove('hide');
             closeModal();
         }, 4000);
-
     }
-    
 });
+
