@@ -194,14 +194,16 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     // --------------Вариант 1-----------------------
-    getResource('http://localhost:3000/menu')
-        .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
-                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-            });
-        });
+
+    // getResource('http://localhost:3000/menu')
+    //     .then(data => {
+    //         data.forEach(({img, altimg, title, descr, price}) => {
+    //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+    //         });
+    //     });
 
     //--------------Вариант 2------------------------
+
     // getResource('http://localhost:3000/menu')
     //     .then(data => createCard(data));
 
@@ -222,6 +224,15 @@ window.addEventListener('DOMContentLoaded', () => {
     //         document.querySelector('.menu .container').append(element);
     //     });
     // }
+
+    //------------Вариант 3 AXIOS----------
+
+    axios.get('http://localhost:3000/menu')
+        .then(data => {
+            data.data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
 
     
 
