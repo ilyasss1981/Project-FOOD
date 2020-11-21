@@ -12,13 +12,26 @@
   },
   "author": "",
   "license": "ISC",
+  "browserslist": [
+    "> 1%"
+  ],
   "bugs": {
     "url": "https://github.com/ilyasss1981/Project-FOOD/issues"
   },
   "homepage": "https://github.com/ilyasss1981/Project-FOOD#readme",
   "devDependencies": {
+    "@babel/cli": "^7.12.7",
+    "@babel/core": "^7.12.7",
+    "@babel/preset-env": "^7.12.7",
+    "babel-loader": "^8.2.1",
+    "core-js": "^3.7.0",
     "json-server": "^0.16.2",
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "es6-promise-polyfill": "^1.2.0",
+    "nodelist-foreach-polyfill": "^1.2.0"
   }
 }
